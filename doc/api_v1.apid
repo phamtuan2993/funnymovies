@@ -84,3 +84,44 @@ API is using by frontend
   },
 }
 ```
+
+## GROUP AUTH
+
+### Sign Up [POST /api/v1/auth/sign_up]
+
++ Parameters
+    + email: `email@gmail.com` (required, string)
+    + password: `password` (required, string)
+
++ Response 201 (application/json)
+```
+No Content
+```
+
++ Response 422 (application/json)
+```
+{
+  "error":{
+    "code":422,
+    "errors":[
+      {
+        "message":"Password is too short"
+      }
+    ],
+  },
+}
+```
+
++ Response 500 (application/json)
+```
+{
+  "error":{
+    "code":401,
+    "errors":[
+      {
+        "message":"Failed to login!"
+      },
+    ],
+  },
+}
+```
