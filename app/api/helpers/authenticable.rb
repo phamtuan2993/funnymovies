@@ -15,11 +15,11 @@ module Api
     def sign_in(user)
       cookies.delete('_funny_movies_session')
 
-      sign_in_service = ::Auth::SignIn.new(user: user).tap(&:call)
-      if sign_in_service.success?
+      create_session_service = ::Auth::CreateSession.new(user: user).tap(&:call)
+      if create_session_service.success?
         @current_user = user
         cookies['_funny_movies_session'] = {
-          value: sign_in_service.session.token,
+          value: create_session_service.session.token,
           path: '/',
           httponly: true,
           same_site: :strict

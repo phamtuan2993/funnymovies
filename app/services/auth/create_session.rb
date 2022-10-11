@@ -1,5 +1,5 @@
 module Auth
-  class SignIn < ::ServiceBase
+  class CreateSession < ::ServiceBase
     attr_reader :user, :session
 
     def initialize(user:)

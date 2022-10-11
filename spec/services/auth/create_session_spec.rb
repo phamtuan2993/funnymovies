@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Auth::SignIn do
+describe ::Auth::CreateSession do
   let(:service) { described_class.new(user: user) }
   let(:user) { create(:user) }
 
