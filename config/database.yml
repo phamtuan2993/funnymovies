@@ -1,0 +1,39 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  port: <%= ENV["DATABASE_PORT"] || '5432' %>
+  host: <%= ENV["DATABASE_HOST"] || 'localhost' %>
+  database: <%= ENV["DATABASE_NAME"] || "funnymovies_development" %>
+  pool: 15
+  username: <%= ENV["DATABASE_USR"] %>
+  password: <%= ENV["DATABASE_PWD"] %>
+  variables:
+    statement_timeout: <%= ENV['DATABASE_STATEMENT_TIMEOUT'] || 60 * 1000 %>
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  port: <%= ENV["DATABASE_PORT"] || '5432' %>
+  database: funnymovies_test<%= ENV['TEST_ENV_NUMBER'] %>
+  pool: 25
+  host: <%= ENV["DATABASE_HOST"] || 'localhost' %>
+  username: <%= ENV["DATABASE_USR"] %>
+  password: <%= ENV["DATABASE_PWD"] %>
+
+staging:
+  adapter: postgresql
+  encoding: unicode
+  prepared_statements: false
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV['APP_PROC_NAME'].to_s =~ /sidekiq/ ? (ENV["SIDEKIQ_DATABASE_POOL"] || 25) : (ENV['APP_PROC_NAME'].to_s =~ /rpc/ ? (ENV["RPC_DATABASE_POOL"] || 10) : (ENV["DATABASE_POOL"] || 15)) %>
+  variables:
+    statement_timeout: <%= ENV['DATABASE_STATEMENT_TIMEOUT'] || 60 * 1000 %>
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  prepared_statements: false
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV['APP_PROC_NAME'].to_s =~ /sidekiq/ ? (ENV["SIDEKIQ_DATABASE_POOL"] || 25) : (ENV['APP_PROC_NAME'].to_s =~ /rpc/ ? (ENV["RPC_DATABASE_POOL"] || 10) : (ENV["DATABASE_POOL"] || 15)) %>
+  variables:
+    statement_timeout: <%= ENV['DATABASE_STATEMENT_TIMEOUT'] || 60 * 1000 %>
