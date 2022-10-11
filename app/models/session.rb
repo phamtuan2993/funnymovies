@@ -3,9 +3,14 @@ class Session < ApplicationRecord
 
   belongs_to :user
 
+  before_create :generate_token
   after_create_commit :limit_active_sessions
 
   private
+
+  def generate_token
+    self.token ||= SecureRandom.hex(32)
+  end
 
   def limit_active_sessions
     excessive_sessions_cnt = Session.where(user_id: user_id).count - ACTIVE_SESSION_LIMIT

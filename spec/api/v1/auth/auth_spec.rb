@@ -6,21 +6,24 @@ describe V1::Auth do
   describe 'POST /sign_up' do
     before do
       allow(::Auth::SignUp).to receive(:new).and_call_original
-      allow_any_instance_of(::Auth::SignUp).to receive(:call)
-      allow_any_instance_of(::Auth::SignUp).to receive(:user).and_return(user)
     end
 
-    let(:user) { build(:user) }
     let(:email) { 'email@gmail.com' }
     let(:password) { 'validP@ssw0rd' }
+    let(:session) { Session.last }
+    let(:user) { User.last }
 
     it 'calls service and return result' do
-      post '/api/v1/auth/sign_up', params: { email: email, password: password }
+      expect {
+        post '/api/v1/auth/sign_up', params: { email: email, password: password }
+      }.to change { User.count }.by(1)
+      .and change { Session.count }.by(1)
 
       expect(::Auth::SignUp).to have_received(:new).with(email: email, password: password)
 
       expect(response.status).to eq(201)
-      # expect user being signed in
+      expect(cookies['_funny_movies_session']).to eq(session.token)
+      expect(session.user).to eq(user)
     end
 
     context 'service returns errors' do

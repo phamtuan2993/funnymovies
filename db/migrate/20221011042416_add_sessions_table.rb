@@ -3,13 +3,12 @@ class AddSessionsTable < ActiveRecord::Migration[6.1]
     enable_extension 'uuid-ossp'
 
     create_table :sessions do |t|
-      t.uuid :session_id, :null => false, default: 'uuid_generate_v4()'
-      t.text :data
+      t.string :token, limit: 255, :null => false
       t.references :user
       t.timestamps
     end
 
-    add_index :sessions, :session_id, :unique => true
-    add_index :sessions, [:user_id, :session_id]
+    add_index :sessions, :token, :unique => true
+    add_index :sessions, [:user_id, :token]
   end
 end

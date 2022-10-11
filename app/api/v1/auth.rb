@@ -12,7 +12,8 @@ module V1
         sign_up_service.call
 
         if sign_up_service.success?
-          # sign_in(sign_up_service.user)
+          sign_in(sign_up_service.user)
+          status 201
         else
           custom_json_error(sign_up_service.errors, 422)
         end
