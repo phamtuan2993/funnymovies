@@ -53,4 +53,56 @@ describe V1::Auth do
       end
     end
   end
+
+  describe 'POST /sign_in' do
+    before do
+      allow(::Auth::ValidateSignIn).to receive(:new).and_call_original
+    end
+
+    let(:email) { 'email@gmail.com' }
+    let(:password) { 'validP@ssw0rd' }
+    let(:session) { Session.last }
+    let!(:user) { create(:user, email: email, password: password) }
+
+    it 'calls service and return result' do
+      expect {
+        ActiveRecord::Base.logger = Logger.new(STDOUT)
+        post '/api/v1/auth/sign_in', params: { email: email, password: password }
+        ActiveRecord::Base.logger = nil
+      }.to change { Session.count }.by(1)
+
+      expect(::Auth::ValidateSignIn).to have_received(:new).with(email: email, password: password)
+
+      expect(response.status).to eq(201)
+      expect(cookies['_funny_movies_session']).to eq(session.token)
+      expect(session.user).to eq(user)
+    end
+
+    context 'service returns errors' do
+      before do
+        allow(::Auth::ValidateSignIn).to receive(:new).and_return(
+          instance_double(
+            ::Auth::ValidateSignIn,
+            call: nil,
+            success?: false,
+            errors: ['some errors']
+          )
+        )
+      end
+
+      it 'calls service and returns errors' do
+        post '/api/v1/auth/sign_in', params: { email: email, password: password }
+
+        expect(::Auth::ValidateSignIn).to have_received(:new).with(email: email, password: password)
+
+        expect(response.status).to eq(422)
+        expect(json_response['error']).to include(
+          'code' => 422,
+          'errors' => [{
+            'message' => 'some errors'
+          }]
+        )
+      end
+    end
+  end
 end

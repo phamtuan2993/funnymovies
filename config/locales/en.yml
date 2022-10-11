@@ -34,3 +34,4 @@ en:
   error:
     unauthenticated_request: 'Could not authenticate user! Please ensure you have logged in!'
     failed_to_login: 'Failed to login!'
+    already_logged_in: 'Already login! Please logout before login again'
