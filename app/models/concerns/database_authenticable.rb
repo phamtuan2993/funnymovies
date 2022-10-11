@@ -10,11 +10,12 @@ module DatabaseAuthenticable
 
     # validations
     validates :password, length: { minimum: 6, maximum: 255 }
+    validates :email, presence: true
     validates :email,
-      presence: true,
       length: { minimum: 6, maximum: 255 },
       format: { with: URI::MailTo::EMAIL_REGEXP },
-      uniqueness: true
+      uniqueness: true,
+      allow_blank: true
   end
 
   module ClassMethods

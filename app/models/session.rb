@@ -16,7 +16,7 @@ class Session < ActiveRecord::SessionStore::Session
         .delete_all
   rescue Exception => e
     Rails.logger.info('='*20)
-    Rails.logger.error(e)
+    Rails.logger.error("#{e.message}\n↳ #{e.backtrace[0]}")
     Rails.logger.info('='*20)
   end
 end
