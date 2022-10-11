@@ -19,7 +19,7 @@ describe ::Auth::SignUp do
     context 'given data is invalid' do
       let(:email) { 'not_a_valid_email' }
 
-      it 'does nothing and return errors' do
+      it 'does nothing and returns errors' do
         expect { service.call }
           .not_to change { User.count }
 

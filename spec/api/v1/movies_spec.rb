@@ -93,7 +93,7 @@ describe V1::Movies do
           )
         end
 
-        it 'calls service and return errors' do
+        it 'calls service and returns errors' do
           post '/api/v1/movies', params: { url: url }
 
           expect(ShareMovie).to have_received(:new).with(shared_by: current_user, url: url)

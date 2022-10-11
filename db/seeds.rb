@@ -4,7 +4,7 @@
 # Examples:
 #
 
-User.create(email: 'phamtuan2993@gmail.com', password: 'funnymovies')
+User.create(email: 'phamtuan@gmail.com', password: 'funnymovies')
 User.create(10.times.map { { email: Faker::Internet.email, password: 'funnymovies' } })
 
 def random_url

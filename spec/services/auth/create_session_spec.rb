@@ -17,7 +17,7 @@ describe ::Auth::CreateSession do
     context 'given data is invalid' do
       let(:user) { nil }
 
-      it 'does nothing and return errors' do
+      it 'does nothing and returns errors' do
         expect { service.call }
           .not_to change { Session.count }
 

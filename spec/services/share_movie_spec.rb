@@ -46,7 +46,7 @@ describe ShareMovie do
     context 'given data is invalid' do
       let(:url) { 'hacking_url' }
 
-      it 'does nothing and return errors' do
+      it 'does nothing and returns errors' do
         expect { service.call }
           .not_to change { Movie.count }
 
@@ -70,7 +70,7 @@ describe ShareMovie do
         )
       end
 
-      it 'does nothing and return errors' do
+      it 'does nothing and returns errors' do
         expect { service.call }
           .not_to change { Movie.count }
 

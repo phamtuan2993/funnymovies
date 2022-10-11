@@ -13,7 +13,7 @@ describe V1::Auth do
     let(:session) { Session.last }
     let(:user) { User.last }
 
-    it 'calls service and return result' do
+    it 'calls service and returns result' do
       expect {
         post '/api/v1/auth/sign_up', params: { email: email, password: password }
       }.to change { User.count }.by(1)
@@ -38,7 +38,7 @@ describe V1::Auth do
         )
       end
 
-      it 'calls service and return errors' do
+      it 'calls service and returns errors' do
         post '/api/v1/auth/sign_up', params: { email: email, password: password }
 
         expect(::Auth::SignUp).to have_received(:new).with(email: email, password: password)
@@ -64,7 +64,7 @@ describe V1::Auth do
     let(:session) { Session.last }
     let!(:user) { create(:user, email: email, password: password) }
 
-    it 'calls service and return result' do
+    it 'calls service and returns result' do
       expect {
         ActiveRecord::Base.logger = Logger.new(STDOUT)
         post '/api/v1/auth/sign_in', params: { email: email, password: password }

@@ -10,7 +10,7 @@ module Auth
 
     def call
       @user = User.create(email: email, password: password)
-      return add_error(@user.errors.full_messages) if @user.errors.any?
+      add_error(@user.errors.full_messages) if @user.errors.any?
     end
   end
 end
