@@ -48,10 +48,6 @@ describe V1::Movies do
   end
 
   describe 'POST /' do
-    before do
-      allow_any_instance_of(Api::Authenticable).to receive(:current_user).and_return(current_user)
-    end
-
     context 'unauthenticated' do
       let(:current_user) { nil }
 
