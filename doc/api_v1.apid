@@ -1,0 +1,37 @@
+FORMAT: 1A
+HOST: TBD
+
+# API
+API is using by frontend
+
+## GROUP MOVIES
+
+### List Movies [GET /movies]
+
++ Parameters
+    + page_index: `1` (optional, integer)
+    + items_per_page: `10` (optional, integer)
+
++ Response 200 (application/json)
+```
+{
+  "data":{
+    "items":[
+      {
+        "id":89,
+        "shared_by_id":2,
+        "url":"https://www.youtube.com/watch?v=J8nJnIxSLB0",
+        "title":"Thiên Nhiên Hoang Dã Scotland HD  Thuyết Minh",
+        "description":"Scotland (phiên âm tiếng Việt: Xcốt-len, phát âm tiếng Anh:...",
+        "created_at":"2022-10-11T12:01:13.897Z",
+        "updated_at":"2022-10-11T12:01:13.897Z"
+      }
+    ],
+    "pageIndex":5,
+    "itemsPerPage":20,
+    "currentItemCount":1,
+    "totalItems":81,
+    "totalPages":5
+  },
+}
+```

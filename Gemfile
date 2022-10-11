@@ -31,3 +31,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'activerecord-session_store'
 gem 'kaminari'
+gem 'grape'
