@@ -1,16 +1,11 @@
+require_relative './helpers/authenticable'
+
 class BaseApi < Grape::API
   def self.inherited(subclass)
     super
 
     subclass.instance_eval do
       helpers do
-        def current_user
-          return @current_user if defined?(@current_user)
-
-          # stub current_user
-          @current_user = [User.order(Arel.sql('RANDOM()')).first, nil].sample
-        end
-
         def custom_json_render(data, custom_data: {})
           if data.respond_to?(:map)
             {
@@ -43,14 +38,12 @@ class BaseApi < Grape::API
           error!(res, status)
         end
 
-        def authorize_user!
-          custom_json_error(I18n.t('error.unauthenticated_request'), 401) unless current_user
-        end
-
         def declared_params
           declared(params, include_missing: false)
         end
       end
+
+      helpers ::Api::Authenticable
     end
   end
 end
