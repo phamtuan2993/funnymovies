@@ -1,5 +1,7 @@
-class Session < ActiveRecord::SessionStore::Session
+class Session < ApplicationRecord
   ACTIVE_SESSION_LIMIT = 10
+
+  belongs_to :user
 
   after_create_commit :limit_active_sessions
 
