@@ -35,3 +35,52 @@ API is using by frontend
   },
 }
 ```
+
+
+### Share Movie [POST /movies]
+
++ Parameters
+    + url: `1` (required, string)
+
++ Response 200 (application/json)
+```
+{
+  "data":{
+    "id":89,
+    "shared_by_id":2,
+    "url":"https://www.youtube.com/watch?v=J8nJnIxSLB0",
+    "title":"Thiên Nhiên Hoang Dã Scotland HD  Thuyết Minh",
+    "description":"Scotland (phiên âm tiếng Việt: Xcốt-len, phát âm tiếng Anh:...",
+    "created_at":"2022-10-11T12:01:13.897Z",
+    "updated_at":"2022-10-11T12:01:13.897Z"
+  },
+}
+```
+
++ Response 401 (application/json)
+```
+{
+  "error":{
+    "code":401,
+    "errors":[
+      {
+        "message":"Could not authenticate user! Please ensure you have logged in!"
+      },
+    ],
+  },
+}
+```
+
++ Response 422 (application/json)
+```
+{
+  "error":{
+    "code":422,
+    "errors":[
+      {
+        "message":"1665491563.385808 - undefined method `[]' for nil:NilClass"
+      }
+    ],
+  },
+}
+```

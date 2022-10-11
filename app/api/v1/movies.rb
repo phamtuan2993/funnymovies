@@ -10,6 +10,22 @@ module V1
       get do
         custom_json_render movies_collection
       end
+
+      desc 'shared a new movie'
+      params do
+        requires :url, type: String, regexp: URI.regexp
+      end
+      post do
+        authorize_user!
+
+        share_movie_service = ::ShareMovie.new(shared_by: current_user, url: declared_params[:url]).tap(&:call)
+
+        if share_movie_service.success?
+          custom_json_render share_movie_service.movie
+        else
+          custom_json_error(share_movie_service.errors, 422)
+        end
+      end
     end
 
     helpers do
