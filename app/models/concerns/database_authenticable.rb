@@ -18,13 +18,13 @@ module DatabaseAuthenticable
       allow_blank: true
   end
 
+  # class methods
   module ClassMethods
-    # class methods
-    def self.valid_password?(verifying_password, user:, email:)
+    def valid_password?(verifying_password, user: nil, email: nil)
       user ||= email.presence && User.find_by_email(email)
       return false unless user
 
-      BCrypt::Password.new(encrypted_password) == verifying_password
+      BCrypt::Password.new(user.encrypted_password) == verifying_password
     end
   end
 
@@ -35,10 +35,10 @@ module DatabaseAuthenticable
 
   private
 
-  ENCRYPT_COST = 6
-
   def encrypt_password
-    self.encrypted_password = ::BCrypt::Password.create(password, cost: ENCRYPT_COST) if new_record? || password_changed?
+    return unless new_record? || password_changed?
+
+    self.encrypted_password = ::BCrypt::Password.create(password, cost: (ENV['ENCRYPT_COST'] || 6).to_i)
   end
 
   def downcase_email
