@@ -1,0 +1,25 @@
+{
+  "id": "file:/v1/movies.json#",
+  "type": "object",
+  "required": [
+    "items",
+    "pageIndex",
+    "itemsPerPage",
+    "currentItemCount",
+    "totalItems",
+    "totalPages"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "file:/v1/movie_item.json#"
+      }
+    },
+    "pageIndex": { "type": "integer" },
+    "itemsPerPage": { "type": "integer" },
+    "currentItemCount": { "type": "integer" },
+    "totalItems": { "type": "integer" },
+    "totalPages": { "type": "integer" }
+  }
+}

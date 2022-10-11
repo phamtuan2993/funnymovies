@@ -1,0 +1,18 @@
+{
+  "id": "file:/v1/movie_item.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "shared_by_id",
+    "url",
+    "title",
+    "description"
+  ],
+  "properties": {
+    "id": { "type": "integer" },
+    "shared_by_id": { "type": "integer" },
+    "url": { "type": "string" },
+    "title": { "type": "string" },
+    "description": { "type": "string" }
+  }
+}
