@@ -22,6 +22,12 @@ module V1
           end
         end
       end
+
+      desc 'logout a user'
+      delete '/sign_out' do
+        sign_out
+        status 204
+      end
     end
   end
 end

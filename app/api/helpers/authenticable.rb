@@ -31,6 +31,11 @@ module Helpers
       end
     end
 
+    def sign_out
+      current_session&.delete
+      cookies.delete(SESSION_KEY)
+    end
+
     def current_session
       return @_current_session if defined?(@_current_session)
 

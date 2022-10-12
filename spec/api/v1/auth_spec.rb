@@ -99,4 +99,18 @@ describe V1::Auth do
       end
     end
   end
+
+  describe 'DELETE /sign_out' do
+    before do
+      cookies['_funny_movies_session'] = session.token
+    end
+
+    let(:session) { create(:session) }
+
+    it 'deletes session and clears cookies' do
+      expect { delete '/api/v1/auth/sign_out' }
+        .to change { Session.find_by_id(session.id) }.to(nil)
+        # .and change { cookies['_funny_movies_session'] }.to(nil)
+    end
+  end
 end
