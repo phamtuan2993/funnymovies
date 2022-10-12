@@ -11,5 +11,5 @@ A web application that allows users to share youtube videos
 ## Technical requirements:
 - [x] Use Git
 - [x] Commit often
-- [] Have integration test
+- [x] Have integration test
 - [x] Have unit test
