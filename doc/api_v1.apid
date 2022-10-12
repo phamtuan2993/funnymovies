@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: TBD
+HOST: https://tuanthieu-funnymovies.herokuapp.com
 
 # API
 API is using by frontend
