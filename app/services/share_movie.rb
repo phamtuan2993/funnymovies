@@ -16,6 +16,7 @@ class ShareMovie < ServiceBase
     return unless success?
 
     @movie.assign_attributes(
+      embedded_id: movie_data['id'],
       title: movie_data['title'],
       description: movie_data['description']
     )
@@ -28,10 +29,11 @@ class ShareMovie < ServiceBase
     raise "ENV['GG_API_KEY'] is empty" if ENV['GG_API_KEY'].blank?
 
     movie_id = URI.decode_www_form(URI(url).query || '').to_h['v']
-    HTTParty.get(
+
+    raw_data = HTTParty.get(
       "https://www.googleapis.com/youtube/v3/videos"\
       "?id=#{movie_id}&key=#{Figaro.env.GG_API_KEY}&fields=items(snippet(title,description))&part=snippet"
-    ).parsed_response['items'][0]['snippet']
+    ).parsed_response['items'][0]['snippet'].merge('id' => movie_id)
   rescue ActiveSupport::Dependencies::Blamable, Exception => e
     code = Time.now.to_f
     Rails.logger.info('='*20)

@@ -14,9 +14,11 @@ end
 User.find_each do |user|
   Movie.create(
     (5..10).to_a.sample.times.map do
+      url = random_url
       {
+        embedded_id: url.match(/v=(.*)/)[1],
         shared_by: user,
-        url: random_url,
+        url: url,
         title: Faker::Movie.title,
         description: Faker::Movie.quote.truncate(20)
       }
