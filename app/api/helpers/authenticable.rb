@@ -1,5 +1,7 @@
 module Api
   module Authenticable
+    SESSION_KEY = '_funny_movies_session'
+
     def current_user
       return @_current_user if defined?(@_current_user)
 
@@ -13,12 +15,12 @@ module Api
     end
 
     def sign_in(user)
-      cookies.delete('_funny_movies_session')
+      cookies.delete(SESSION_KEY)
 
       create_session_service = ::Auth::CreateSession.new(user: user).tap(&:call)
       if create_session_service.success?
         @current_user = user
-        cookies['_funny_movies_session'] = {
+        cookies[SESSION_KEY] = {
           value: create_session_service.session.token,
           path: '/',
           httponly: true,
@@ -32,9 +34,9 @@ module Api
     def current_session
       return @_current_session if defined?(@_current_session)
 
-      return @_current_session = nil unless cookies['_funny_movies_session']
+      return @_current_session = nil unless cookies[SESSION_KEY]
 
-      @_current_session = Session.find_by_token(cookies['_funny_movies_session'])
+      @_current_session = Session.find_by_token(cookies[SESSION_KEY])
     end
   end
 end
