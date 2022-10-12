@@ -6,11 +6,11 @@ class BaseApi < Grape::API
 
     subclass.instance_eval do
       helpers do
-        def custom_json_render(data, custom_data: {})
+        def custom_json_render(data, custom_data = {})
           if data.respond_to?(:map)
             {
               data: {
-                items: data,
+                items: data.map { |item| serialize_item(item, custom_data[:serializer]) },
                 pageIndex: params[:page_index] || custom_data[:page_index] || 1,
                 itemsPerPage: params[:items_per_page] || custom_data[:items_per_page] || data.length,
                 currentItemCount: data.length,
@@ -19,7 +19,7 @@ class BaseApi < Grape::API
               }
             }
           else
-            { data: data }
+            { data: serialize_item(data, custom_data[:serializer]) }
           end
         end
 
@@ -36,6 +36,12 @@ class BaseApi < Grape::API
           }
 
           error!(res, status)
+        end
+
+        def serialize_item(item, serializer)
+          return item unless serializer
+
+          serializer.new(item).serializable_hash
         end
 
         def declared_params
