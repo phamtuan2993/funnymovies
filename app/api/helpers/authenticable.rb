@@ -19,7 +19,7 @@ module Api
 
       create_session_service = ::Auth::CreateSession.new(user: user).tap(&:call)
       if create_session_service.success?
-        @current_user = user
+        @_current_user = user
         cookies[SESSION_KEY] = {
           value: create_session_service.session.token,
           path: '/',
