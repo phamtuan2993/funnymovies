@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe V1::Movies do
   before do
-    allow_any_instance_of(Api::Authenticable).to receive(:current_user).and_return(current_user)
+    allow_any_instance_of(Helpers::Authenticable).to receive(:current_user).and_return(current_user)
   end
 
   let(:json_response) { JSON.parse(response.body) }

@@ -1,4 +1,4 @@
-module Api
+module Helpers
   module Authenticable
     SESSION_KEY = '_funny_movies_session'
 

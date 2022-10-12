@@ -43,7 +43,7 @@ class BaseApi < Grape::API
         end
       end
 
-      helpers ::Api::Authenticable
+      helpers ::Helpers::Authenticable
     end
   end
 end
