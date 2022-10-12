@@ -66,7 +66,6 @@ describe V1::Auth do
 
     it 'calls service and returns result' do
       expect {
-        ActiveRecord::Base.logger = Logger.new(STDOUT)
         post '/api/v1/auth/sign_in', params: { email: email, password: password }
         ActiveRecord::Base.logger = nil
       }.to change { Session.count }.by(1)
