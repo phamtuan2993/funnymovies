@@ -77,7 +77,7 @@ describe V1::Movies do
         expect(json_response['data']).to include(
           'id' => stubbed_movie.id,
           'url' => url,
-          'shared_by_id' => current_user.id
+          'shared_by' => { "id" => current_user.id, "email" => current_user.email }
         )
       end
 

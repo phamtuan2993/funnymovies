@@ -23,7 +23,7 @@ module V1
         share_movie_service = ::ShareMovie.new(shared_by: current_user, url: declared_params[:url]).tap(&:call)
 
         if share_movie_service.success?
-          custom_json_render share_movie_service.movie
+          custom_json_render share_movie_service.movie, serializer: MovieSerializer
         else
           custom_json_error(share_movie_service.errors, 422)
         end

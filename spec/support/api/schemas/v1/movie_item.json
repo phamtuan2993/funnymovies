@@ -3,14 +3,14 @@
   "type": "object",
   "required": [
     "id",
-    "shared_by_id",
+    "shared_by",
     "url",
     "title",
     "description"
   ],
   "properties": {
     "id": { "type": "integer" },
-    "shared_by_id": { "type": "integer" },
+    "shared_by": { "type": "object", "$ref": "file:/v1/user_item.json#" },
     "url": { "type": "string" },
     "title": { "type": "string" },
     "description": { "type": "string" }

@@ -1,0 +1,12 @@
+{
+  "id": "file:/v1/user_item.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "email"
+  ],
+  "properties": {
+    "id": { "type": "integer" },
+    "email": { "type": "string" }
+  }
+}
