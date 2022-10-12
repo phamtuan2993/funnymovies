@@ -28,6 +28,11 @@ module V1
         sign_out
         status 204
       end
+
+      desc 'get current user'
+      get '/current_user' do
+        custom_json_render(current_user, serializer: UserSerializer) if current_user
+      end
     end
   end
 end

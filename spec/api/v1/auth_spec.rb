@@ -113,4 +113,21 @@ describe V1::Auth do
         # .and change { cookies['_funny_movies_session'] }.to(nil)
     end
   end
+
+  describe 'GET /current_user' do
+    before do
+      cookies['_funny_movies_session'] = session.token
+    end
+
+    let(:session) { create(:session) }
+
+    it 'deletes session and clears cookies' do
+      get '/api/v1/auth/current_user'
+
+      expect(json_response['data']).to eq(
+        'id' => session.user.id,
+        'email' => session.user.email,
+      )
+    end
+  end
 end
