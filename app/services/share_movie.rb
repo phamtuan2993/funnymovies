@@ -26,7 +26,7 @@ class ShareMovie < ServiceBase
   private
 
   def extract_url_data(url)
-    raise "ENV['GG_API_KEY'] is empty" if ENV['GG_API_KEY'].blank?
+    raise "GG_API_KEY is empty" if Figaro.env.GG_API_KEY.blank?
 
     movie_id = URI.decode_www_form(URI(url).query || '').to_h['v']
 
