@@ -24,12 +24,14 @@ export const MoviesContextProvider = ({ children }) => {
       })
         .then(extractResponse)
         .then(newMovies =>
-          setMovies(oldMovies => ({
-            ...newMovies,
-            items: oldMovies
-              ? [...oldMovies.items, ...newMovies.items]
-              : newMovies.items,
-          }))
+          setMovies(oldMovies => {
+            if (!oldMovies || newMovies.pageIndex === 1) return newMovies;
+
+            return {
+              ...newMovies,
+              items: [...oldMovies.items, ...newMovies.items],
+            };
+          })
         )
         .catch(err => {
           console.error(`Error: ${err}`); // eslint-disable-line no-console
