@@ -46,6 +46,13 @@ const MoviesList = () => {
   }, [listRef]);
   useResizeObserver({ refElement: listRef, resizeCallback });
 
+  const virtualListRef = React.useRef();
+  React.useLayoutEffect(() => {
+    if (!movies) return;
+
+    if (movies.pageIndex === 1) virtualListRef.current.scrollTo(0, 0);
+  }, [movies]);
+
   return (
     <div style={{ height: '100%' }} ref={setListRef}>
       <List
@@ -56,9 +63,10 @@ const MoviesList = () => {
       >
         {containerHeight !== 0 && (
           <VirtualList
+            ref={virtualListRef}
             data={movies?.items}
             height={containerHeight}
-            itemHeight={520}
+            itemHeight={500}
             itemKey="id"
             onScroll={onScroll}
           >
@@ -72,63 +80,56 @@ const MoviesList = () => {
                   maxHeight: containerHeight,
                 }}
               >
-                <div
-                  style={{ aspectRatio: 1.78, flex: 1, minHeight: 500 }} // 16:9
-                >
-                  <iframe
-                    style={{ aspectRatio: 1.78, width: '100%' }} // 16:9
-                    src={`https://www.youtube.com/embed/${item.embedded_id}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title="Embedded youtube"
-                  />
-                </div>
+                <iframe
+                  style={{ aspectRatio: '16/9', height: 500 }} // 16:9
+                  src={`https://www.youtube.com/embed/${item.embedded_id}`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Embedded youtube"
+                />
 
-                <div
+                <List.Item.Meta
                   style={{
-                    flex: 'unset',
-                    minWidth: 500,
-                    display: 'flex',
-                    flexDirection: 'column',
+                    minWidth: 300,
+                    maxHeight: 'fit-content',
+                    minHeight: 200,
                   }}
-                >
-                  <List.Item.Meta
-                    // avatar={null}
-                    title={
-                      <div>
-                        <Typography.Text strong style={{ color: 'red' }}>
-                          {item.title}
-                        </Typography.Text>
-                        <br />
-                        Shared by:{' '}
-                        <Typography.Text strong>
-                          {item.shared_by.email}
-                        </Typography.Text>
-                        <div style={{ display: 'flex', gap: 20 }}>
-                          <IconText
-                            icon={item.starred ? StarFilled : StarOutlined}
-                            text="156"
-                            key="start"
-                          />
-                          <IconText
-                            icon={item.liked ? LikeFilled : LikeOutlined}
-                            text="156"
-                            key="like-count"
-                          />
-                          <IconText
-                            icon={
-                              item.disliked ? DislikeFilled : DislikeOutlined
-                            }
-                            text="156"
-                            key="dislike-count"
-                          />
-                        </div>
+                  title={
+                    <div>
+                      <Typography.Text strong style={{ color: 'red' }}>
+                        {item.title}
+                      </Typography.Text>
+                      <br />
+                      Shared by:{' '}
+                      <Typography.Text strong>
+                        {item.shared_by.email}
+                      </Typography.Text>
+                      <div style={{ display: 'flex', gap: 20 }}>
+                        <IconText
+                          icon={item.starred ? StarFilled : StarOutlined}
+                          text="156"
+                          key="start"
+                        />
+                        <IconText
+                          icon={item.liked ? LikeFilled : LikeOutlined}
+                          text="156"
+                          key="like-count"
+                        />
+                        <IconText
+                          icon={item.disliked ? DislikeFilled : DislikeOutlined}
+                          text="156"
+                          key="dislike-count"
+                        />
                       </div>
-                    }
-                    description={item.description?.substring(0, 100)}
-                  />
-                </div>
+                    </div>
+                  }
+                  description={
+                    <p style={{ maxHeight: 250, overflow: 'auto' }}>
+                      {item.description}
+                    </p>
+                  }
+                />
               </List.Item>
             )}
           </VirtualList>
