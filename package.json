@@ -8,7 +8,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rc-virtual-list": "^6.1.0",
+    "rc-virtual-list": "3.4.8",
     "react-router-dom": "^6.4.2",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"
