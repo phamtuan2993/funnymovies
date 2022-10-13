@@ -26,6 +26,7 @@ export const MoviesContextProvider = ({ children }) => {
         .then(newMovies =>
           setMovies(oldMovies => {
             if (!oldMovies || newMovies.pageIndex === 1) return newMovies;
+            if (oldMovies.isAtLastPage) return oldMovies;
 
             return {
               ...newMovies,

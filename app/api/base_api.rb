@@ -8,14 +8,18 @@ class BaseApi < Grape::API
       helpers do
         def custom_json_render(data, custom_data = {})
           if data.respond_to?(:map)
+            page_index = params[:page_index] || custom_data[:page_index] || 1
+            total_pages = data.try(:total_pages) || custom_data[:total_pages] || 1
+
             {
               data: {
                 items: data.map { |item| serialize_item(item, custom_data[:serializer]) },
-                pageIndex: params[:page_index] || custom_data[:page_index] || 1,
+                pageIndex: page_index,
                 itemsPerPage: params[:items_per_page] || custom_data[:items_per_page] || data.length,
                 currentItemCount: data.length,
                 totalItems: data.try(:total_count) || custom_data[:total_items] || data.length,
-                totalPages: data.try(:total_pages) || custom_data[:total_pages] || 1
+                totalPages: total_pages,
+                isAtLastPage: page_index == total_pages
               }
             }
           else

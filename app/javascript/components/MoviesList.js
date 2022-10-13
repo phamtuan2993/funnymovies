@@ -22,13 +22,13 @@ const IconText = ({ icon, text }) => (
 
 const MoviesList = () => {
   const { movies, fetchMovies, isFetchingMovies } = useMoviesContext();
-  const [containerHeight, setContainerHeight] = React.useState(0);
-
   React.useEffect(fetchMovies, [fetchMovies]);
+
+  const [containerHeight, setContainerHeight] = React.useState(0);
 
   const onScroll = React.useCallback(
     e => {
-      if (!movies) return;
+      if (!movies || isFetchingMovies || movies.isAtLastPage) return;
 
       if (
         e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
@@ -37,7 +37,7 @@ const MoviesList = () => {
         fetchMovies({ pageIndex: movies.pageIndex + 1 });
       }
     },
-    [movies, containerHeight, fetchMovies]
+    [movies, isFetchingMovies, containerHeight, fetchMovies]
   );
 
   const [listRef, setListRef] = React.useState(null);
