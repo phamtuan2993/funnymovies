@@ -1,4 +1,6 @@
-{
+{ "engines": {
+    "node": "16.16.0"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@babel/preset-react": "^7.18.6",
