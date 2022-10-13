@@ -10,7 +10,7 @@ describe V1::Movies do
   let(:url) { 'https://www.youtube.com/watch?v=J8nJnIxSLB0' }
 
   describe 'GET /' do
-    let!(:movies) { create_list(:movie, 3, shared_by: current_user) }
+    let!(:movies) { create_list(:movie, 3, shared_by: current_user).reverse }
 
     it 'returns data correctly' do
       get '/api/v1/movies'

@@ -8,6 +8,9 @@ class ShareMovie < ServiceBase
   end
 
   def call
+    validate_upload_limit
+    return unless success?
+
     @movie = Movie.new(shared_by: shared_by, url: url)
     return add_error(@movie.errors.full_messages) unless movie.valid?
 
@@ -24,6 +27,28 @@ class ShareMovie < ServiceBase
   end
 
   private
+
+  PER_DAY_UPLOAD_LIMIT = ENV['PER_DAY_UPLOAD_LIMIT'] || 50
+  PER_USER_PER_DAY_UPLOAD_LIMIT = ENV['PER_USER_PER_DAY_UPLOAD_LIMIT'] || 5
+
+  def validate_upload_limit
+    user_daily_upload_limit_exceeded =
+      shared_by.movies
+        .where("created_at > ?", Date.yesterday)
+        .limit(PER_USER_PER_DAY_UPLOAD_LIMIT)
+        .count == PER_USER_PER_DAY_UPLOAD_LIMIT
+
+    if user_daily_upload_limit_exceeded
+      return add_error(I18n.t('error.movies.exceeded_user_daily_upload_limit', limit: PER_USER_PER_DAY_UPLOAD_LIMIT))
+    end
+
+    daily_upload_limit_exceeded =
+      Movie.where("created_at > ?", Date.yesterday).limit(PER_DAY_UPLOAD_LIMIT).count == PER_DAY_UPLOAD_LIMIT
+
+    if daily_upload_limit_exceeded
+      return add_error(I18n.t('error.movies.exceeded_daily_upload_limit', limit: PER_DAY_UPLOAD_LIMIT))
+    end
+  end
 
   def extract_url_data(url)
     raise "GG_API_KEY is empty" if Figaro.env.GG_API_KEY.blank?

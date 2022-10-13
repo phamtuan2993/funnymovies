@@ -37,3 +37,5 @@ en:
     already_logged_in: 'Already login! Please logout before login again'
     movies:
       failed_to_read_data_from_url: 'Failed to read data from url'
+      exceeded_user_daily_upload_limit: 'Exceeded per user daily upload limit (%{limit})'
+      exceeded_daily_upload_limit: 'Exceeded daily upload limit (%{limit})'
