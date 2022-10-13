@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+ .site-layout-content {
+  background: #fff;
+  padding: 24px;
+  height: 100%;
+  min-height: 380px;
+}
+
+.logo {
+  width: 64px;
+  min-height: 64px;
+  margin-right: 24px;
+  background-image: url(https://img.icons8.com/arcade/64/000000/experimental-house-arcade.png);
+  background-repeat: no-repeat;
+  display: inline-block;
+}
