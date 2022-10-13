@@ -40,6 +40,6 @@ class ShareMovie < ServiceBase
     Rails.logger.error("#{code} - #{e.message}\n↳ #{e.backtrace[0]}")
     Rails.logger.info('='*20)
 
-    add_error(e.class.new("#{code} - #{e.message}"))
+    add_error(I18n.t('error.movies.failed_to_read_data_from_url'))
   end
 end
