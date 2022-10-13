@@ -8,8 +8,7 @@ module V1
       end
 
       get do
-        data = movies_collection
-        data = data.joins(:shared_by)
+        data = movies_collection.includes(:shared_by)
         custom_json_render data, serializer: MovieSerializer
       end
 
