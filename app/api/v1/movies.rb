@@ -31,7 +31,7 @@ module V1
 
     helpers do
       def movies_collection
-        Movie.order(id: :asc).page(declared_params[:page_index]).per(declared_params[:items_per_page])
+        Movie.order(id: :desc).page(declared_params[:page_index]).per(declared_params[:items_per_page])
       end
     end
   end
