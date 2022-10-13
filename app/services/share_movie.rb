@@ -28,8 +28,8 @@ class ShareMovie < ServiceBase
 
   private
 
-  PER_DAY_UPLOAD_LIMIT = ENV['PER_DAY_UPLOAD_LIMIT'] || 50
-  PER_USER_PER_DAY_UPLOAD_LIMIT = ENV['PER_USER_PER_DAY_UPLOAD_LIMIT'] || 5
+  PER_DAY_UPLOAD_LIMIT = (ENV['PER_DAY_UPLOAD_LIMIT'] || 50).to_i
+  PER_USER_PER_DAY_UPLOAD_LIMIT = (ENV['PER_USER_PER_DAY_UPLOAD_LIMIT'] || 5).to_i
 
   def validate_upload_limit
     user_daily_upload_limit_exceeded =

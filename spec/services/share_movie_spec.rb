@@ -79,4 +79,32 @@ describe ShareMovie do
       end
     end
   end
+
+  describe 'upload limit' do
+    before do
+      stub_const("ShareMovie::PER_DAY_UPLOAD_LIMIT", 3)
+      stub_const("ShareMovie::PER_USER_PER_DAY_UPLOAD_LIMIT", 2)
+
+      create_list(:movie, 2, shared_by: user_1)
+    end
+
+    let(:user_1) { create(:user) }
+    let(:user_2) { create(:user) }
+    let(:service_1) { ShareMovie.new(shared_by: user_1, url: url) }
+    let(:service_2) { ShareMovie.new(shared_by: user_2, url: url) }
+
+    it 'prevents users to share more movies than allowed limit' do
+      expect { service_1.call }
+        .to change { Movie.count }.by(0)
+        .and change { service_1.success? }.to(false)
+        .and change { service_1.errors[0] }.to("Exceeded per user daily upload limit (2)")
+
+      expect { service_2.call }.to change { Movie.count }.by(1)
+
+      expect { service_2.call }
+        .to change { Movie.count }.by(0)
+        .and change { service_2.success? }.to(false)
+        .and change { service_2.errors[0] }.to("Exceeded daily upload limit (3)")
+    end
+  end
 end
